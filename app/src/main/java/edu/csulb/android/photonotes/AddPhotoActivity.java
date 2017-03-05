@@ -23,6 +23,8 @@ import java.util.Random;
 public class AddPhotoActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
+    PhotoData photoData;
+    static EditText photoCaption;
     //static final int REQUEST_TAKE_PHOTO = 1;
      public static String DEBUG_TAG = "AddPhotoActivity";
 
@@ -32,7 +34,7 @@ public class AddPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_photo);
 
         //Retrieve Photo Caption Entered by User
-        EditText photoCaption = (EditText) findViewById(R.id.caption);
+        photoCaption = (EditText) findViewById(R.id.caption);
 
         //Launch Camera with Click Photo button
         Button clickPhoto = (Button) findViewById(R.id.clickPictureButton);
@@ -43,6 +45,16 @@ public class AddPhotoActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
+
+        Button saveData = (Button) findViewById(R.id.saveButton);
+        saveData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoData = new PhotoData(getApplicationContext());
+                photoData.insert(photoCaption.getText().toString(),mCurrentPhotoPath);
+            }
+        });
+
     }
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

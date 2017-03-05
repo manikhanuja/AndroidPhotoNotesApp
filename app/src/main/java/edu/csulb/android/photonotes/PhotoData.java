@@ -51,6 +51,7 @@ public class PhotoData {
         photoContentValues.put(PhotoDBHelper.COLUMN_CAPTION, caption);
         photoContentValues.put(PhotoDBHelper.COLUMN_PATH, path);
         db.insert(PhotoDBHelper.TABLE_PHOTOINFO, null, photoContentValues);
+        Log.d(DEBUG_TAG, "Successfully Added data to the table: Caption: " + caption + " & Path: " + path);
         close();
     }
 
