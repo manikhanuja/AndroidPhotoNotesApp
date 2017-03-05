@@ -2,7 +2,9 @@ package edu.csulb.android.photonotes;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
@@ -112,6 +114,16 @@ public class ListActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);
         }
+
+        /*if (requestCode == REQUEST_CAPTION && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            //Add notes
+            notes.add(extras.getString("caption","Empty Image Caption"));
+            //Add List Adapter for Notes Application
+            ListView listViewNotes = (ListView) findViewById(R.id.listView);
+            listViewNotes.setAdapter(new NotesAdapter());
+
+        }*/
     }
 
 
