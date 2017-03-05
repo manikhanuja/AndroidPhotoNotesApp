@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PhotoNotes</string>
+    <string name="action_settings">Settings</string>
+    <string name="image_caption">Image Caption</string>
+    <string name="click_picture_button">Click Photo</string>
+    <string name="save_button">Save</string>
+</resources>
