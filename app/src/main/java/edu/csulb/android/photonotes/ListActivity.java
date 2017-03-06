@@ -31,6 +31,7 @@ public class ListActivity extends AppCompatActivity {
     //private ImageView mImageView;
     PhotoData photoData;
     PackageInstaller packageInstaller;
+    ListView listViewNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,16 @@ public class ListActivity extends AppCompatActivity {
                     REQUEST_CAMERA_PERMISSION);
         }
 
+        photoData = new PhotoData(getApplicationContext());
+        if (photoData != null) {
+            notes.addAll(photoData.getPhotoCaption());
+
+        }
+
+
+        //Add List Adapter for Notes Application
+        listViewNotes = (ListView) findViewById(R.id.listView);
+        listViewNotes.setAdapter(new NotesAdapter());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -65,14 +76,13 @@ public class ListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //Add notes
-        photoData = new PhotoData(getApplicationContext());
-        if (photoData != null) {
-            notes.addAll(photoData.getPhotoCaption());
-            // Log.d(DEBUG_TAG, "Get Photo Caption from database: " + notes.get(1));
+        ArrayList<String> notesLocal = new ArrayList<>();
+        notesLocal.addAll(photoData.getPhotoCaption());
+        int size = notesLocal.size();
+        if (notesLocal.size() > notes.size()) {
+            notes.add(notesLocal.get(size - 1));
         }
-
         //Add List Adapter for Notes Application
-        ListView listViewNotes = (ListView) findViewById(R.id.listView);
         listViewNotes.setAdapter(new NotesAdapter());
     }
 
