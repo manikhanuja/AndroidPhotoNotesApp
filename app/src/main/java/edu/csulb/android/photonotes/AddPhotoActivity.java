@@ -95,25 +95,6 @@ public class AddPhotoActivity extends AppCompatActivity {
         return image;
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
-        }
-
-        if (requestCode == REQUEST_CAPTION && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            //Add notes
-            notes.add(extras.getString("caption","Empty Image Caption"));
-            //Add List Adapter for Notes Application
-            ListView listViewNotes = (ListView) findViewById(R.id.listView);
-            listViewNotes.setAdapter(new NotesAdapter());
-
-        }
-    }*/
-
     @Override
     public void finish() {
         photoData.close();
