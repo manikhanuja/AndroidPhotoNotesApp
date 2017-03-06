@@ -1,33 +1,28 @@
 package edu.csulb.android.photonotes;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.io.File;
 import java.util.Date;
-import android.os.Environment;
-
-
-import java.util.Random;
 
 public class AddPhotoActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static String DEBUG_TAG = "AddPhotoActivity";
+    static EditText photoCaption;
     String mCurrentPhotoPath;
     PhotoData photoData;
-    static EditText photoCaption;
-    //static final int REQUEST_TAKE_PHOTO = 1;
-     public static String DEBUG_TAG = "AddPhotoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +46,25 @@ public class AddPhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoData = new PhotoData(getApplicationContext());
-                photoData.insert(photoCaption.getText().toString(),mCurrentPhotoPath);
+                photoData.insert(photoCaption.getText().toString(), mCurrentPhotoPath);
                 finish();
             }
         });
 
     }
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
-            try{
+            try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
                 Log.d(DEBUG_TAG, "Error occured while creating the file for photo with value of: " + ex);
             }
-            if(photoFile != null){
-                Uri photoURI = FileProvider.getUriForFile(this,"edu.csulb.android.fileprovider", photoFile);
-                Log.d("PhotoUri","photo uri: " + photoURI);
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "edu.csulb.android.fileprovider", photoFile);
+                Log.d("PhotoUri", "photo uri: " + photoURI);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);

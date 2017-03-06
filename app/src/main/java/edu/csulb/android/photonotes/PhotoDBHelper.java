@@ -25,12 +25,12 @@ public class PhotoDBHelper extends SQLiteOpenHelper {
                     COLUMN_CAPTION + " TEXT, " +
                     COLUMN_PATH + " TEXT " + ")";
 
-    public PhotoDBHelper(Context context){
+    public PhotoDBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db){
+    public void onCreate(SQLiteDatabase db) {
         Log.d(DEBUG_TAG, "Entered Create Database Method");
         db.execSQL(PHOTO_TABLE_CREATE);
     }

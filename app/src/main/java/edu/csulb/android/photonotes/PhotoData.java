@@ -16,27 +16,26 @@ import java.util.ArrayList;
 public class PhotoData {
 
     public static final String DEBUG_TAG = "PhotoData";
-    private SQLiteDatabase db;
-    private SQLiteOpenHelper photoDbHelper;
-
     private static final String[] ALL_COLUMNS = {
             PhotoDBHelper.COLUMN_ID,
             PhotoDBHelper.COLUMN_CAPTION,
             PhotoDBHelper.COLUMN_PATH
     };
+    private SQLiteDatabase db;
+    private SQLiteOpenHelper photoDbHelper;
 
     //PhotoDBHelper object will allow to access the database
-    public PhotoData (Context context){
+    public PhotoData(Context context) {
         this.photoDbHelper = new PhotoDBHelper(context);
     }
 
     //This is where the database is created with the getWritableDatabase() method.
-    public void open(){
+    public void open() {
         db = photoDbHelper.getWritableDatabase();
     }
 
     //This is for closing the database
-    public void close(){
+    public void close() {
 
         if (photoDbHelper != null) {
             photoDbHelper.close();
@@ -45,7 +44,7 @@ public class PhotoData {
     }
 
     //This is for inserting the data into the PhotoInfo table
-    public void insert(String caption, String path){
+    public void insert(String caption, String path) {
         open();
         ContentValues photoContentValues = new ContentValues();
         photoContentValues.put(PhotoDBHelper.COLUMN_CAPTION, caption);
@@ -59,22 +58,22 @@ public class PhotoData {
         ArrayList<String> notes = new ArrayList<>();
         open();
         Cursor cursor = null;
-         try{
-             cursor = db.query(PhotoDBHelper.TABLE_PHOTOINFO, ALL_COLUMNS, null, null, null, null, null);
-             if(cursor.getCount() > 0){
-                 while(cursor.moveToNext()){
-                     String caption = cursor.getString(1);
-                     notes.add(caption);
-                     Log.d(DEBUG_TAG, "Get Photo Caption Method: " + caption);
-                 }
-             }
-         } catch (Exception e){
-             Log.d(DEBUG_TAG,"getPhotoCaption method: Exception Raised with a value of " + e);
-         } finally {
-             if(cursor != null){
-                 cursor.close();
-             }
-         }
+        try {
+            cursor = db.query(PhotoDBHelper.TABLE_PHOTOINFO, ALL_COLUMNS, null, null, null, null, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    String caption = cursor.getString(1);
+                    notes.add(caption);
+                    Log.d(DEBUG_TAG, "Get Photo Caption Method: " + caption);
+                }
+            }
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, "getPhotoCaption method: Exception Raised with a value of " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         close();
         return notes;
     }
