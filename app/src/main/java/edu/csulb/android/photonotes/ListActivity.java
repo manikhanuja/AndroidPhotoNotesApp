@@ -13,7 +13,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +68,7 @@ public class ListActivity extends AppCompatActivity {
         photoData = new PhotoData(getApplicationContext());
         if (photoData != null) {
             notes.addAll(photoData.getPhotoCaption());
-            Log.d(DEBUG_TAG, "Get Photo Caption from database: " + notes.get(1));
+            // Log.d(DEBUG_TAG, "Get Photo Caption from database: " + notes.get(1));
         }
 
         //Add List Adapter for Notes Application
