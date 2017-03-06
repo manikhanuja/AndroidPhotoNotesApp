@@ -30,6 +30,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<String> notes = new ArrayList<String>();
     PhotoData photoData;
     ListView listViewNotes;
+    String uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,6 @@ public class ListActivity extends AppCompatActivity {
 
         photoData = new PhotoData(getApplicationContext());
         notes.addAll(photoData.getPhotoCaption());
-
         //Add List Adapter for Notes Application
         listViewNotes = (ListView) findViewById(R.id.listView);
         listViewNotes.setAdapter(new NotesAdapter());
@@ -66,15 +66,18 @@ public class ListActivity extends AppCompatActivity {
         listViewNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Intent viewPhoto = new Intent(getApplicationContext(), ViewPhotoActivity.class);
                 Intent viewPhoto = new Intent(getApplicationContext(), ViewPhotoActivity.class);
                 String selectedFromList = (String) (listViewNotes.getItemAtPosition(position));
                 Log.d(DEBUG_TAG, "Selected Item position " + position + "Selected Item: " + selectedFromList);
+                //viewPhoto.setAction(Intent.ACTION_VIEW);
+                uri = photoData.getPhotoURI(selectedFromList);
+                viewPhoto.putExtra("imagePath", uri);
+                Log.d(DEBUG_TAG, "Selected URI " + uri);
                 viewPhoto.putExtra("caption", selectedFromList);
-                //listViewNotes.getSelectedItem();
                 startActivity(viewPhoto);
             }
         });
-
     }
 
     @Override

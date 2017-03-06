@@ -43,6 +43,10 @@
             android:label="@string/title_activity_view_photo"
             android:parentActivityName=".ListActivity"
             android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.csulb.android.photonotes.ListActivity" />

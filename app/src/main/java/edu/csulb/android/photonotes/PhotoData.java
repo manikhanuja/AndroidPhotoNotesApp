@@ -78,4 +78,29 @@ public class PhotoData {
         return notes;
     }
 
+    public String getPhotoURI(String caption) {
+        String notesUri = null;
+        String whereClause = PhotoDBHelper.COLUMN_CAPTION + "=?";
+        String[] whereArgs = {caption};
+        open();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(PhotoDBHelper.TABLE_PHOTOINFO, ALL_COLUMNS, whereClause, whereArgs, null, null, null);
+            int index = cursor.getColumnIndex(PhotoDBHelper.COLUMN_PATH);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    notesUri = cursor.getString(index);
+                    Log.d(DEBUG_TAG, "Get Photo URI Method: " + notesUri);
+                }
+            }
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, "getPhotoURI method: Exception Raised with a value of " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        close();
+        return notesUri;
+    }
 }
