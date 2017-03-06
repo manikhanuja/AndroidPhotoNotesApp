@@ -57,23 +57,25 @@ public class PhotoData {
 
     public ArrayList<String> getPhotoCaption() {
         ArrayList<String> notes = new ArrayList<>();
+        open();
         Cursor cursor = null;
          try{
              cursor = db.query(PhotoDBHelper.TABLE_PHOTOINFO, ALL_COLUMNS, null, null, null, null, null);
-
              if(cursor.getCount() > 0){
                  while(cursor.moveToNext()){
-                     String caption = cursor.getString(2);
+                     String caption = cursor.getString(1);
                      notes.add(caption);
+                     Log.d(DEBUG_TAG, "Get Photo Caption Method: " + caption);
                  }
              }
          } catch (Exception e){
-             Log.d(DEBUG_TAG,"Exception Raised with a value of " + e);
+             Log.d(DEBUG_TAG,"getPhotoCaption method: Exception Raised with a value of " + e);
          } finally {
              if(cursor != null){
                  cursor.close();
              }
          }
+        close();
         return notes;
     }
 

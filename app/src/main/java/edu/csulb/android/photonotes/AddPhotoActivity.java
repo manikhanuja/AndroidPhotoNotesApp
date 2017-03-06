@@ -41,7 +41,6 @@ public class AddPhotoActivity extends AppCompatActivity {
         clickPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dispatchTakePictureIntent();
             }
         });
@@ -52,6 +51,7 @@ public class AddPhotoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 photoData = new PhotoData(getApplicationContext());
                 photoData.insert(photoCaption.getText().toString(),mCurrentPhotoPath);
+                finish();
             }
         });
 
@@ -92,5 +92,11 @@ public class AddPhotoActivity extends AppCompatActivity {
         mCurrentPhotoPath = image.getAbsolutePath();
         Log.d("CreateImageFile:", "Image path " + mCurrentPhotoPath);
         return image;
+    }
+
+    @Override
+    public void finish() {
+        photoData.close();
+        super.finish();
     }
 }

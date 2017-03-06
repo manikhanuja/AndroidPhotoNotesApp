@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,8 @@ public class ListActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private ImageView mImageView;
+    PhotoData photoData;
+    public static String DEBUG_TAG = "ListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,6 @@ public class ListActivity extends AppCompatActivity {
                     REQUEST_CAMERA_PERMISSION);
         }
 
-        //Add notes
-        notes.add("Test1");
-        notes.add("Test2");
-        notes.add("Test3");
-        notes.add("Test4");
-        notes.add("Test5");
-        //Add List Adapter for Notes Application
-        ListView listViewNotes = (ListView) findViewById(R.id.listView);
-        listViewNotes.setAdapter(new NotesAdapter());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +65,21 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(addPhoto);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Add notes
+        photoData = new PhotoData(getApplicationContext());
+        if(photoData != null){
+            notes.addAll(photoData.getPhotoCaption());
+            Log.d(DEBUG_TAG, "Get Photo Caption from database: " + notes.get(1));
+        }
+
+        //Add List Adapter for Notes Application
+        ListView listViewNotes = (ListView) findViewById(R.id.listView);
+        listViewNotes.setAdapter(new NotesAdapter());
     }
 
     @Override
