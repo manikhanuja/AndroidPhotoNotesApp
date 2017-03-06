@@ -2,12 +2,15 @@ package edu.csulb.android.photonotes;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -32,10 +35,11 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
     ArrayList<String> notes = new ArrayList<String>();
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    //static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private ImageView mImageView;
+    //private ImageView mImageView;
     PhotoData photoData;
+    PackageInstaller packageInstaller;
     public static String DEBUG_TAG = "ListActivity";
 
     @Override
@@ -83,6 +87,13 @@ public class ListActivity extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        //Close any open database connections
+        photoData.close();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
@@ -110,30 +121,15 @@ public class ListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Uri packageURI = Uri.parse("package:edu.csulb.android.photonotes");
+            Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+            startActivity(uninstallIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
-        }
-
-        /*if (requestCode == REQUEST_CAPTION && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            //Add notes
-            notes.add(extras.getString("caption","Empty Image Caption"));
-            //Add List Adapter for Notes Application
-            ListView listViewNotes = (ListView) findViewById(R.id.listView);
-            listViewNotes.setAdapter(new NotesAdapter());
-
-        }*/
-    }
 
 
     private class NotesAdapter extends BaseAdapter {
