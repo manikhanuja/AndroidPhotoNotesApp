@@ -93,7 +93,9 @@ public class AddPhotoActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        photoData.close();
+        if (photoData != null) {
+            photoData.close();
+        }
         super.finish();
     }
 }
