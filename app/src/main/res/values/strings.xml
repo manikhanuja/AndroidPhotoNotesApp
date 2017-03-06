@@ -4,4 +4,8 @@
     <string name="image_caption">Image Caption</string>
     <string name="click_picture_button">Click Photo</string>
     <string name="save_button">Save</string>
+
+    <string name="title_activity_view_photo">ViewPhotoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -2,7 +2,6 @@ package edu.csulb.android.photonotes;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,10 +12,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,13 +25,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
-    //static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     public static String DEBUG_TAG = "ListActivity";
     ArrayList<String> notes = new ArrayList<String>();
-    //private ImageView mImageView;
     PhotoData photoData;
-    PackageInstaller packageInstaller;
     ListView listViewNotes;
 
     @Override
@@ -51,11 +49,7 @@ public class ListActivity extends AppCompatActivity {
         }
 
         photoData = new PhotoData(getApplicationContext());
-        if (photoData != null) {
-            notes.addAll(photoData.getPhotoCaption());
-
-        }
-
+        notes.addAll(photoData.getPhotoCaption());
 
         //Add List Adapter for Notes Application
         listViewNotes = (ListView) findViewById(R.id.listView);
@@ -65,17 +59,28 @@ public class ListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent addPhoto = new Intent(getApplicationContext(), AddPhotoActivity.class);
                 startActivity(addPhoto);
             }
         });
+        listViewNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent viewPhoto = new Intent(getApplicationContext(), ViewPhotoActivity.class);
+                String selectedFromList = (String) (listViewNotes.getItemAtPosition(position));
+                Log.d(DEBUG_TAG, "Selected Item position " + position + "Selected Item: " + selectedFromList);
+                viewPhoto.putExtra("caption", selectedFromList);
+                //listViewNotes.getSelectedItem();
+                startActivity(viewPhoto);
+            }
+        });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //Add notes
+        //Add only new notes
         ArrayList<String> notesLocal = new ArrayList<>();
         notesLocal.addAll(photoData.getPhotoCaption());
         int size = notesLocal.size();
